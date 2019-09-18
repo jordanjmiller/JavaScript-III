@@ -131,3 +131,74 @@ console.log(Humanoid.prototype.greet());
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+function Hero(attributes) {
+    Humanoid.call(this, attributes);
+    this.attackdamage = attributes.attackdamage;
+    this.deathMessage = attributes.deathMessage;
+}
+Hero.prototype = Object.create(Humanoid.prototype);
+Hero.prototype.attack = function(secondCharacter) {
+   secondCharacter.healthPoints -= this.attackdamage;
+   console.log(`${this.name} attacked ${secondCharacter.name} for ${this.attackdamage} damage.`)
+   console.log(`${secondCharacter.name} has ${secondCharacter.healthPoints} health remaining.`)
+   if (secondCharacter.healthPoints <= 0)
+   {
+     return console.log(secondCharacter.name + ' has died.');
+   }
+  };  
+function Villain(attributes) {
+  Hero.call(this, attributes);
+}
+Villain.prototype = Object.create(Hero.prototype);
+
+
+const hero = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 4,
+  },
+  healthPoints: 10,
+  name: 'hero',
+  team: 'Forest Kingdom',
+  weapons: [
+    'Bow',
+    'Dagger',
+  ],
+  language: 'Elvish',
+  attackdamage: 3,
+});
+
+const vil = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 4,
+  },
+  healthPoints: 10,
+  name: 'vil',
+  team: 'Forest Kingdom',
+  weapons: [
+    'Bow',
+    'Dagger',
+  ],
+  language: 'Elvish',
+  attackdamage: 2,
+});
+
+hero.attack(vil);
+console.log(vil.healthPoints);
+vil.attack(hero);
+console.log(hero.healthPoints)
+hero.attack(vil);
+console.log(vil.healthPoints);
+vil.attack(hero);
+console.log(hero.healthPoints)
+hero.attack(vil);
+console.log(vil.healthPoints);
+vil.attack(hero);
+console.log(hero.healthPoints)
+hero.attack(vil);
+console.log(vil.healthPoints);
